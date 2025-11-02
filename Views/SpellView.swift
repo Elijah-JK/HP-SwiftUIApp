@@ -8,8 +8,22 @@
 import SwiftUI
 
 struct SpellView: View {
+    @State private var vm = SpellViewModel()
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationStack {
+            List(vm.spells) { spell in
+                VStack(alignment: .leading) {
+                    Text(spell.name)
+                    Text(spell.description)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+            }
+            .task {
+                await vm.fetchSpells()
+            }
+            .navigationTitle("Spells")
+        }
     }
 }
 
