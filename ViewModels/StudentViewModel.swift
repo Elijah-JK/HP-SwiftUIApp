@@ -10,15 +10,34 @@ import Observation
 
 @Observable
 class StudentViewModel {
-    var students = [Student]()
+    enum State: Equatable {
+        case idle
+        case loading
+        case loaded([Student])
+        case error(String)
+    }
     
-    func fetchStudents() async {
-        let url = URL(string: "https://hp-api.onrender.com/api/characters/students")!
+    var state: State = .idle
+    var students = [Student]()
+    private let service: HPService
+    
+    init(service: HPService = DefaultHPService()) {
+        self.service = service
+    }
+    
+    func fetch() async {
+        guard state == .idle else { return }
+        
+        state = .loading
+        
         do {
-            let (data, _) = try await URLSession.shared.data(from: url)
-            students = try JSONDecoder().decode([Student].self, from: data)
+            let students = try await service.fetchStudents()
+            self.students = students
+            self.state = .loaded(students)
+        } catch let error as APIError {
+            self.state = .error(error.errorDescription ?? "Unknown Error")
         } catch {
-            print(error)
+            self.state = .error("Unknown Error")
         }
     }
 }

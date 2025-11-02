@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Wand: Codable {
+struct Wand: Codable, Equatable {
     let wood: String
     let core: String
     let length: Double?

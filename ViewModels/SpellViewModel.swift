@@ -10,17 +10,34 @@ import Observation
 
 @Observable
 class SpellViewModel{
-    var spells = [Spell]()
+    enum State: Equatable {
+        case idle
+        case loading
+        case loaded([Spell])
+        case error(String)
+    }
     
-    func fetchSpells() async {
-        let url = URL(string: "https://hp-api.onrender.com/api/spells")!
+    var state: State = .idle
+    var spells = [Spell]()
+    private let service: HPService
+    
+    init(service: HPService = DefaultHPService()) {
+        self.service = service
+    }
+    
+    func fetch() async {
+        guard state == .idle else { return }
+        
+        state = .loading
         
         do {
-            let (data, _) = try await URLSession.shared.data(from: url)
-            spells = try JSONDecoder().decode([Spell].self, from: data)
+            let spells = try await service.fetchSpells()
+            self.spells = spells
+            self.state = .loaded(spells)
+        } catch let error as APIError {
+            self.state = .error(error.errorDescription ?? "Unknown Error")
         } catch {
-            print(error)
+            self.state = .error("Unknown Error")
         }
-        
     }
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Student: Codable, Identifiable {
+struct Student: Codable, Identifiable, Equatable {
     enum CodingKeys: String, CodingKey {
         case id, name, species, gender, house, ancestry, wand, patronus, actor, alive, image
         

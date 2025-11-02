@@ -11,18 +11,32 @@ struct SpellView: View {
     @State private var vm = SpellViewModel()
     var body: some View {
         NavigationStack {
-            List(vm.spells) { spell in
-                VStack(alignment: .leading) {
-                    Text(spell.name)
-                    Text(spell.description)
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+            Group {
+                switch vm.state {
+                case .idle:
+                    Text("No Spells yet")
+                case .loading:
+                    ProgressView {
+                        Text("Loading...")
+                    }
+                case .loaded:
+                    List(vm.spells) { spell in
+                        VStack(alignment: .leading) {
+                            Text(spell.name)
+                            Text(spell.description)
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                case .error(let error):
+                    Text(error)
+                        .foregroundStyle(.red)
                 }
             }
-            .task {
-                await vm.fetchSpells()
-            }
             .navigationTitle("Spells")
+        }
+        .task {
+            await vm.fetch()
         }
     }
 }

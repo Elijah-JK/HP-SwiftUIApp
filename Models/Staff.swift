@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Staff: Codable, Identifiable {
+struct Staff: Codable, Identifiable, Equatable {
     enum CodingKeys: String, CodingKey {
         case id, name, species, gender, house, ancestry, wand, patronus, actor, alive, image
         

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Spell: Codable, Identifiable {
+struct Spell: Codable, Identifiable, Equatable {
     enum CodingKeys: String, CodingKey {
         case id, name, description
     }

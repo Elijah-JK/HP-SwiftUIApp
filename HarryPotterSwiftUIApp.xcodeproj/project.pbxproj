@@ -89,6 +89,11 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		9174DBD32EB7FDF500BE8ECD /* Services */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Services;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,6 +124,7 @@
 		9174DB682EB7C06500BE8ECD = {
 			isa = PBXGroup;
 			children = (
+				9174DBD32EB7FDF500BE8ECD /* Services */,
 				9174DB9B2EB7C0F500BE8ECD /* Preview Assets */,
 				9174DB732EB7C06500BE8ECD /* HarryPotterSwiftUIApp */,
 				9174DB812EB7C06700BE8ECD /* HarryPotterSwiftUIAppTests */,
@@ -161,6 +167,7 @@
 				9174DBAD2EB7CF0B00BE8ECD /* ViewModels */,
 				9174DBB22EB7D07400BE8ECD /* Views */,
 				9174DBBF2EB7D27C00BE8ECD /* Models */,
+				9174DBD32EB7FDF500BE8ECD /* Services */,
 			);
 			name = HarryPotterSwiftUIApp;
 			packageProductDependencies = (
