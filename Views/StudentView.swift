@@ -21,8 +21,23 @@ struct StudentView: View {
                     }
                 case .loaded:
                     List(vm.students) { student in
-                        VStack(alignment: .leading) {
-                            Text(student.name)
+                        NavigationLink(value: student) {
+                            HStack(spacing: 12) {
+                                Text(student.name)
+                                    .font(.headline)
+                                    .lineLimit(1)
+                                    .truncationMode(.tail)
+
+                                Spacer(minLength: 8)
+
+                                Image(student.house)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 28, height: 28)
+                                    .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
+                                    .shadow(radius: 1, y: 1)
+                            }
+                            .padding(.vertical, 4)
                         }
                     }
                 case .error(let error):
@@ -31,6 +46,10 @@ struct StudentView: View {
                 }
             }
             .navigationTitle("Students")
+            .navigationDestination(for: Student.self) { student in
+                StudentDetailView(student: student)
+                
+            }
         }
         .task {
             await vm.fetch()

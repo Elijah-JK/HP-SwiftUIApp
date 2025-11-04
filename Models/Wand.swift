@@ -7,7 +7,10 @@
 
 import Foundation
 
-struct Wand: Codable, Equatable {
+struct Wand: Codable, Equatable, Hashable {
+    enum CodingKeys: String, CodingKey {
+        case wood, core, length
+    }
     let wood: String
     let core: String
     let length: Double?
